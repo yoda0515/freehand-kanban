@@ -1,5 +1,5 @@
 <template>
-  <div class="signup">
+  <div class="signin">
     <div>
       <b-form v-on:submit="onSubmit" v-on:reset="onReset">
         <b-form-group id="email-group"
@@ -31,17 +31,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { SignUpForm } from './sign-up';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class SignUp extends Vue {
+export default class SignIn extends Vue {
 
-  public form: SignUpForm;
+  public form: SignInForm;
 
   public data() {
     return {
-      form: new SignUpForm()
+      form: new SignInForm()
     };
   }
 
@@ -50,10 +49,16 @@ export default class SignUp extends Vue {
   }
 
   public onReset(): void {
-    this.form = new SignUpForm();
+    this.form = new SignInForm();
   }
 
 }
+
+class SignInForm {
+  public email: string;
+  public name: string;
+}
+
 </script>
 
 <style scoped lang="sass">
