@@ -25,7 +25,7 @@ npm run test
 npm run lint
 ```
 
-### Configure your local variables
+### Configure your env.local
 ```
 FIREBASE_API_KEY=***
 FIREBASE_AUTH_DOMAIN=***
