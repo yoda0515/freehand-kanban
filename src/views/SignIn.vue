@@ -8,19 +8,21 @@
                       description="We'll never share your email with anyone else.">
           <b-form-input id="email-input"
                         type="email"
+                        autocomplete="email"
                         v-model="form.email"
                         required
                         placeholder="Enter email">
           </b-form-input>
         </b-form-group>
-        <b-form-group id="name-gruop"
-                      label="Your Name:"
-                      label-for="name-input">
-          <b-form-input id="name-input"
-                        type="text"
-                        v-model="form.name"
+        <b-form-group id="password-gruop"
+                      label="Password:"
+                      label-for="password-input">
+          <b-form-input id="password-input"
+                        type="password"
+                        autocomplete="current-password"
+                        v-model="form.password"
                         required
-                        placeholder="Enter name">
+                        placeholder="Enter password">
           </b-form-input>
         </b-form-group>
         <b-button type="submit" variant="primary">Submit</b-button>
@@ -32,6 +34,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import firebase from 'firebase';
+import UserCredential = firebase.auth.UserCredential;
 
 @Component
 export default class SignIn extends Vue {
@@ -45,7 +49,11 @@ export default class SignIn extends Vue {
   }
 
   public onSubmit(): void {
-    // TODO do something
+    firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password).then((user: UserCredential) => {
+      // console.log('authentication success');
+    }).catch((err: any) => {
+      // console.log('authentication failed');
+    });
   }
 
   public onReset(): void {
@@ -56,7 +64,7 @@ export default class SignIn extends Vue {
 
 class SignInForm {
   public email: string;
-  public name: string;
+  public password: string;
 }
 
 </script>
