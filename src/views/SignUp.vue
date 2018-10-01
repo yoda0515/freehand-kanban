@@ -56,6 +56,6 @@ export default class SignUp extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="sass">
 
 </style>
