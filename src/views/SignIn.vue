@@ -50,7 +50,7 @@ export default class SignIn extends Vue {
 
   public onSubmit(): void {
     firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password).then((user: UserCredential) => {
-      // console.log('authentication success');
+      this.$router.push('/dashboard');
     }).catch((err: any) => {
       // console.log('authentication failed');
     });
