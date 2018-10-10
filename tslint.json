@@ -17,6 +17,7 @@
     "no-consecutive-blank-lines": false,
     "trailing-comma": false,
     "max-classes-per-file": [true, 5],
-    "no-empty": false
+    "no-empty": false,
+    "arrow-parens": false
   }
 }
