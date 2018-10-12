@@ -1,34 +1,34 @@
 <template>
   <div class="signin">
-    <div>
-      <b-form v-on:submit="onSubmit" v-on:reset="onReset">
-        <b-form-group id="email-group"
-                      label="Email address:"
-                      label-for="email-input"
-                      description="We'll never share your email with anyone else.">
-          <b-form-input id="email-input"
-                        type="email"
-                        autocomplete="email"
-                        v-model="form.email"
-                        required
-                        placeholder="Enter email">
-          </b-form-input>
-        </b-form-group>
-        <b-form-group id="password-gruop"
-                      label="Password:"
-                      label-for="password-input">
-          <b-form-input id="password-input"
-                        type="password"
-                        autocomplete="current-password"
-                        v-model="form.password"
-                        required
-                        placeholder="Enter password">
-          </b-form-input>
-        </b-form-group>
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
-      </b-form>
-    </div>
+    <form class="form-signin">
+      <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input
+        v-model="form.email"
+        type="email"
+        id="inputEmail"
+        class="form-control"
+        placeholder="Email address"
+        autocomplete="email"
+        required
+        autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input
+        v-model="form.password"
+        type="password"
+        id="inputPassword"
+        class="form-control"
+        placeholder="Password"
+        autocomplete="current-password"
+        required>
+      <button
+        v-on:click="onSubmit()"
+        class="btn btn-lg btn-primary btn-block"
+        type="submit">
+        Sign in
+      </button>
+    </form>
   </div>
 </template>
 
@@ -56,10 +56,6 @@ export default class SignIn extends Vue {
     });
   }
 
-  public onReset(): void {
-    this.form = new SignInForm();
-  }
-
 }
 
 class SignInForm {
@@ -70,5 +66,6 @@ class SignInForm {
 </script>
 
 <style scoped lang="sass">
-
+.signin
+  text-align: center
 </style>
