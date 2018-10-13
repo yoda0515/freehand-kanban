@@ -15,7 +15,16 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component({})
+const vueSwipeActions = require('vue-swipe-actions');
+const SwipeList = vueSwipeActions.SwipeList;
+const SwipeOut = vueSwipeActions.SwipeOut;
+
+@Component({
+  components: {
+    SwipeOut,
+    SwipeList
+  }
+})
 export default class App extends Vue {}
 </script>
 

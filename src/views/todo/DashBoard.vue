@@ -4,6 +4,7 @@
     <canvas id="title" width="500" height="100" style="border: 1px solid #000000;"></canvas>
     <button type="button" class="btn btn-primary" v-on:click="exportSvg()">export</button>
     <span>{{svg}}</span>
+    <to-do-list v-bind:todos="todos"></to-do-list>
   </div>
 </template>
 
@@ -11,8 +12,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import firestore from '../../firebaseInit';
 import { fabric } from 'fabric';
+import ToDoList from '@/components/todo/ToDoList.vue';
 
-@Component
+@Component({
+  components: {
+    ToDoList
+  }
+})
 export default class DashBoard extends Vue {
 
   private todos: any[];
@@ -21,15 +27,32 @@ export default class DashBoard extends Vue {
 
   public data() {
     return {
-      todos: [],
-      svg: ''
+      svg: '',
+      todos: [
+        {
+          id: 0,
+          title: 'Some title',
+          description: 'some description',
+        },
+        {
+          id: 1,
+          title: 'Some title',
+          description: 'some description',
+        },
+        {
+          id: 2,
+          title: 'Some title',
+          description: 'some description',
+        },
+      ]
     };
   }
 
   public mounted(): void {
+    let tmp: string = '';
     firestore.collection('todos').get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        this.todos.push(doc.data());
+        tmp = doc.data().content;
       });
     }).then(() => {
       this.canvas = new fabric.Canvas('title', {
@@ -37,7 +60,7 @@ export default class DashBoard extends Vue {
         selection: true,
         stateful: true
       });
-      fabric.loadSVGFromString(this.todos[0].content, (objects, options) => {
+      fabric.loadSVGFromString(tmp, (objects, options) => {
         const obj = fabric.util.groupSVGElements(objects, options);
         this.canvas.add(obj).renderAll();
       });
@@ -47,6 +70,7 @@ export default class DashBoard extends Vue {
   public exportSvg() {
     this.svg = this.canvas.toSVG();
   }
+
 }
 </script>
 
