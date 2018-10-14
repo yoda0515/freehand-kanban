@@ -3,15 +3,14 @@
     <swipe-list
       class="card"
       v-bind:items="todos"
-      v-on:swipeout:click="itemClick"
       transition-key="key">
       <template slot-scope="{ item, index, revealLeft, revealRight, close }">
-        <div class="card-content" v-on:click="contentClick(index)">
+        <div class="card-content" v-on:click="titleClick(index)">
           <svg class="todo-item-svg" v-html="item.content"></svg>
         </div>
       </template>
-      <template slot="right" slot-scope="{ item }">
-        <div class="swipeout-action red">
+      <template slot="right" slot-scope="{ item, index }">
+        <div class="swipeout-action red" v-on:click="deleteClick(index)">
           <i class="fa fa-trash"></i>
         </div>
       </template>
@@ -23,15 +22,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
 import { fabric } from 'fabric';
-const vueSwipeActions = require('vue-swipe-actions');
-const SwipeList = vueSwipeActions.SwipeList;
-const SwipeOut = vueSwipeActions.SwipeOut;
+import SwipeList from '@/components/vendor/SwipeList.vue';
 
 @Component({
   components: {
-    SwipeOut,
     SwipeList
   }
 })
@@ -44,13 +40,10 @@ export default class ToDoList extends Vue {
     return {};
   }
 
-  public contentClick(index: number) {
-    // console.log(index, 'content click');
-  }
-
-  public itemClick(index: number) {
-    // console.log(index, 'item click');
-  }
+  @Emit('titleClick')
+  public titleClick(index: number) {}
+  @Emit('deleteClick')
+  public deleteClick(index: number) {}
 
 }
 

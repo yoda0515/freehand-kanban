@@ -4,7 +4,10 @@
     <canvas id="title" width="500" height="100" style="border: 1px solid #000000;"></canvas>
     <button type="button" class="btn btn-primary" v-on:click="exportSvg()">export</button>
     <span>{{svg}}</span>
-    <to-do-list v-bind:todos="todos"></to-do-list>
+    <to-do-list
+      v-bind:todos="todos"
+      v-on:titleClick="openDetail"
+      v-on:deleteClick="deleteItem"></to-do-list>
   </div>
 </template>
 
@@ -53,6 +56,14 @@ export default class DashBoard extends Vue {
 
   public exportSvg() {
     this.svg = this.canvas.toSVG();
+  }
+
+  public openDetail(index: number): void {
+    // console.log('openDetail', index);
+  }
+
+  public deleteItem(index: number): void {
+    // console.log('deleteItem', index);
   }
 
 }
