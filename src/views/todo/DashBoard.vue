@@ -7,7 +7,14 @@
     <to-do-list
       v-bind:todos="todos"
       v-on:titleClick="openDetail"
-      v-on:deleteClick="deleteItem"></to-do-list>
+      v-on:deleteClick="deleteItem">
+    </to-do-list>
+    <modal v-if="showModal">
+      <h3 slot="body">custom body</h3>
+      <template slot="footer">
+        <button class="btn btn-primary modal-default-button" v-on:click="closeDetail()">save</button>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -16,10 +23,12 @@ import { Component, Vue } from 'vue-property-decorator';
 import firestore from '../../firebaseInit';
 import { fabric } from 'fabric';
 import ToDoList, { Todo } from '@/components/todo/ToDoList.vue';
+import Modal from '@/components/vendor/Modal.vue';
 
 @Component({
   components: {
-    ToDoList
+    ToDoList,
+    Modal
   }
 })
 export default class DashBoard extends Vue {
@@ -27,11 +36,14 @@ export default class DashBoard extends Vue {
   private todos: Todo[];
   private canvas: any;
   private svg: string;
+  private showModal: boolean;
+  private editing: Todo;
 
   public data() {
     return {
       svg: '',
-      todos: []
+      todos: [],
+      showModal: false
     };
   }
 
@@ -59,7 +71,12 @@ export default class DashBoard extends Vue {
   }
 
   public openDetail(index: number): void {
-    // console.log('openDetail', index);
+    this.editing = this.todos[index];
+    this.showModal = true;
+  }
+
+  public closeDetail(): void {
+    this.showModal = false;
   }
 
   public deleteItem(index: number): void {

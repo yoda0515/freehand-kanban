@@ -48,6 +48,7 @@ export default class ToDoList extends Vue {
 }
 
 export class Todo {
+  public key: string;
   public title: string;
   public content: string;
 }
