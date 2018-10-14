@@ -12,7 +12,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import firestore from '../../firebaseInit';
 import { fabric } from 'fabric';
-import ToDoList from '@/components/todo/ToDoList.vue';
+import ToDoList, { Todo } from '@/components/todo/ToDoList.vue';
 
 @Component({
   components: {
@@ -21,50 +21,34 @@ import ToDoList from '@/components/todo/ToDoList.vue';
 })
 export default class DashBoard extends Vue {
 
-  private todos: any[];
+  private todos: Todo[];
   private canvas: any;
   private svg: string;
 
   public data() {
     return {
       svg: '',
-      todos: [
-        {
-          id: 0,
-          title: 'Some title',
-          description: 'some description',
-        },
-        {
-          id: 1,
-          title: 'Some title',
-          description: 'some description',
-        },
-        {
-          id: 2,
-          title: 'Some title',
-          description: 'some description',
-        },
-      ]
+      todos: []
     };
   }
 
-  public mounted(): void {
-    let tmp: string = '';
+  public created(): void {
     firestore.collection('todos').get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        tmp = doc.data().content;
-      });
-    }).then(() => {
-      this.canvas = new fabric.Canvas('title', {
-        isDrawingMode: true,
-        selection: true,
-        stateful: true
-      });
-      fabric.loadSVGFromString(tmp, (objects, options) => {
-        const obj = fabric.util.groupSVGElements(objects, options);
-        this.canvas.add(obj).renderAll();
+        this.todos.push(doc.data() as Todo);
       });
     });
+    // .then(() => {
+    //   this.canvas = new fabric.Canvas('title', {
+    //     isDrawingMode: true,
+    //     selection: true,
+    //     stateful: true
+    //   });
+    //   fabric.loadSVGFromString(tmp, (objects, options) => {
+    //     const obj = fabric.util.groupSVGElements(objects, options);
+    //     this.canvas.add(obj).renderAll();
+    //   });
+    // });
   }
 
   public exportSvg() {

@@ -3,32 +3,19 @@
     <swipe-list
       class="card"
       v-bind:items="todos"
-      transition-key="id"
-      v-on:swipeout:contentclick="contentClick"
-      v-on:swipeout:click="itemClick">
+      v-on:swipeout:click="itemClick"
+      transition-key="key">
       <template slot-scope="{ item, index, revealLeft, revealRight, close }">
-        <!-- item is the corresponding object from the array -->
-        <!-- index is clearly the index -->
-        <!-- revealLeft is method which toggles the left side -->
-        <!-- revealRight is method which toggles the right side -->
-        <!-- close is method which closes an opened side -->
-        <div class="card-content">
-          <!-- style content how ever you like -->
-          <h2>{{ item.title }}</h2>
-          <p>{{ item.description }}</p>
-          <span>{{ index }}</span>
+        <div class="card-content" v-on:click="contentClick(index)">
+          <svg class="todo-item-svg" v-html="item.content"></svg>
         </div>
       </template>
-      <!-- right swipe side template and slot-scope="{ item }" is the item clearly -->
-      <!-- remove <template slot="right" slot-scope="{ item }"> if you dont wanna have right swipe side  -->
       <template slot="right" slot-scope="{ item }">
         <div class="swipeout-action red">
-          <!-- place icon here or what ever you want -->
           <i class="fa fa-trash"></i>
         </div>
       </template>
       <div slot="empty">
-        <!-- change mockSwipeList to an empty array to see this slot in action  -->
         list is empty ( filtered or just empty )
       </div>
     </swipe-list>
@@ -51,25 +38,27 @@ const SwipeOut = vueSwipeActions.SwipeOut;
 export default class ToDoList extends Vue {
 
   @Prop({required: true})
-  private todos: any[];
-  private canvas: any;
-  private svg: string;
+  private todos: Todo[];
 
   public data() {
-    return {
-      svg: ''
-    };
+    return {};
   }
 
-  public contentClick(e: any) {
-    // console.log(e, 'content click');
+  public contentClick(index: number) {
+    // console.log(index, 'content click');
   }
 
-  public itemClick(e: any) {
-    // console.log(e, 'item click');
+  public itemClick(index: number) {
+    // console.log(index, 'item click');
   }
 
 }
+
+export class Todo {
+  public title: string;
+  public content: string;
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -129,5 +118,10 @@ export default class ToDoList extends Vue {
 }
 .card-content {
   padding: 1rem;
+  svg {
+    display: block;
+    width: 100%;
+  }
 }
+
 </style>
