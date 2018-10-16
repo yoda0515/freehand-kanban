@@ -53,19 +53,18 @@ export default class DashBoard extends Vue {
   }
 
   public created(): void {
-    firestore.collection('todos').get().then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        this.todos.push(doc.data() as Todo);
-      });
-    });
+    this.loadTodoList();
   }
 
   public exportSvg() {
     // this.svg = this.canvas.toSVG();
   }
 
-  public addToDo(todo: string): void {
-    console.log(todo);
+  public addToDo(title: string): void {
+    const todo: Todo = new Todo(title);
+    firestore.collection('todos').add(JSON.parse(JSON.stringify(todo))).then(() => {
+      this.loadTodoList();
+    });
   }
 
   public openDetail(index: number): void {
@@ -79,6 +78,15 @@ export default class DashBoard extends Vue {
 
   public deleteItem(index: number): void {
     // console.log('deleteItem', index);
+  }
+
+  private loadTodoList(): void {
+    this.todos = [];
+    firestore.collection('todos').get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        this.todos.push(doc.data() as Todo);
+      });
+    });
   }
 
 }

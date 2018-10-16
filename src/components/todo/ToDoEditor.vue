@@ -22,8 +22,7 @@ export default class ToDoEditor extends Vue {
       selection: true,
       stateful: true
     });
-    // TODO 実際はcontentでなくtitle
-    fabric.loadSVGFromString(this.todo.content, (objects, options) => {
+    fabric.loadSVGFromString(this.todo.title, (objects, options) => {
       const obj = fabric.util.groupSVGElements(objects, options);
       this.titleCanvas.add(obj).renderAll();
     });

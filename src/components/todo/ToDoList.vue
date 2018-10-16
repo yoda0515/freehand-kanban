@@ -6,7 +6,7 @@
       transition-key="key">
       <template slot-scope="{ item, index, revealLeft, revealRight, close }">
         <div class="card-content" v-on:click="titleClick(index)">
-          <svg class="todo-item-svg" v-html="item.content"></svg>
+          <svg class="todo-item-svg" v-html="item.title"></svg>
         </div>
       </template>
       <template slot="right" slot-scope="{ item, index }">
@@ -51,6 +51,9 @@ export class Todo {
   public key: string;
   public title: string;
   public content: string;
+  constructor(title: string) {
+    this.title = title;
+  }
 }
 
 </script>

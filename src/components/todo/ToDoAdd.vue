@@ -25,7 +25,13 @@ export default class ToDoAdd extends Vue {
 
   @Emit('addToDo')
   public add(): string {
-    return this.canvas.toSVG();
+    const svg: string = this.canvas.toSVG();
+    this.reset();
+    return svg;
+  }
+
+  private reset(): void {
+    this.canvas.clear().renderAll();
   }
 }
 </script>
