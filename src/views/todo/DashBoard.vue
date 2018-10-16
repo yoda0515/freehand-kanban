@@ -3,6 +3,7 @@
     <h1>dashboard works</h1>
     <button type="button" class="btn btn-primary" v-on:click="exportSvg()">export</button>
     <span>{{svg}}</span>
+    <to-do-add v-on:addToDo="addToDo"></to-do-add>
     <to-do-list
       v-bind:todos="todos"
       v-on:titleClick="openDetail"
@@ -23,12 +24,14 @@
 import { Component, Vue } from 'vue-property-decorator';
 import firestore from '../../firebaseInit';
 import { fabric } from 'fabric';
+import ToDoAdd from '@/components/todo/ToDoAdd.vue';
 import ToDoList, { Todo } from '@/components/todo/ToDoList.vue';
 import ToDoEditor from '@/components/todo/ToDoEditor.vue';
 import Modal from '@/components/vendor/Modal.vue';
 
 @Component({
   components: {
+    ToDoAdd,
     ToDoList,
     ToDoEditor,
     Modal
@@ -59,6 +62,10 @@ export default class DashBoard extends Vue {
 
   public exportSvg() {
     // this.svg = this.canvas.toSVG();
+  }
+
+  public addToDo(todo: string): void {
+    console.log(todo);
   }
 
   public openDetail(index: number): void {
