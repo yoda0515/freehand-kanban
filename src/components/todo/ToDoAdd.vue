@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { fabric } from 'fabric';
-import { Todo } from '@/components/todo/ToDoList.vue';
+import { Todo } from '@/entities/todo';
 
 @Component({})
 export default class ToDoAdd extends Vue {

@@ -16,6 +16,7 @@
     "object-literal-sort-keys": false,
     "no-consecutive-blank-lines": false,
     "trailing-comma": false,
+    "member-ordering": false,
     "max-classes-per-file": [true, 5],
     "no-empty": false,
     "no-var-requires": false,

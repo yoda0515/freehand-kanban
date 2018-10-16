@@ -25,6 +25,7 @@
 import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
 import { fabric } from 'fabric';
 import SwipeList from '@/components/vendor/SwipeList.vue';
+import { Todo } from '@/entities/todo';
 
 @Component({
   components: {
@@ -45,15 +46,6 @@ export default class ToDoList extends Vue {
   @Emit('deleteClick')
   public deleteClick(index: number) {}
 
-}
-
-export class Todo {
-  public key: string;
-  public title: string;
-  public content: string;
-  constructor(title: string) {
-    this.title = title;
-  }
 }
 
 </script>

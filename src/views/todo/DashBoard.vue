@@ -24,8 +24,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 import firestore from '../../firebaseInit';
 import { fabric } from 'fabric';
+import { Todo } from '@/entities/todo';
 import ToDoAdd from '@/components/todo/ToDoAdd.vue';
-import ToDoList, { Todo } from '@/components/todo/ToDoList.vue';
+import ToDoList from '@/components/todo/ToDoList.vue';
 import ToDoEditor from '@/components/todo/ToDoEditor.vue';
 import Modal from '@/components/vendor/Modal.vue';
 
@@ -61,7 +62,7 @@ export default class DashBoard extends Vue {
   }
 
   public addToDo(title: string): void {
-    const todo: Todo = new Todo(title);
+    const todo: Todo = Todo.newInstance(title);
     firestore.collection('todos').add(JSON.parse(JSON.stringify(todo))).then(() => {
       this.loadTodoList();
     });
@@ -77,14 +78,17 @@ export default class DashBoard extends Vue {
   }
 
   public deleteItem(index: number): void {
-    // console.log('deleteItem', index);
+    const doc: Todo = this.todos[index];
+    firestore.collection('todos').doc(doc.key).delete().then(() => {
+      this.loadTodoList();
+    });
   }
 
   private loadTodoList(): void {
     this.todos = [];
     firestore.collection('todos').get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        this.todos.push(doc.data() as Todo);
+        this.todos.push(Todo.ofFirebaseDoc(doc));
       });
     });
   }
