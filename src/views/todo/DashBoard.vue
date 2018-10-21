@@ -1,8 +1,5 @@
 <template>
   <div class="dashboard">
-    <h1>dashboard works</h1>
-    <button type="button" class="btn btn-primary" v-on:click="exportSvg()">export</button>
-    <span>{{svg}}</span>
     <to-do-add v-on:addToDo="addToDo"></to-do-add>
     <to-do-list
       v-bind:todos="todos"
@@ -47,7 +44,6 @@ export default class DashBoard extends Vue {
 
   public data() {
     return {
-      svg: '',
       todos: [],
       showModal: false
     };
@@ -55,10 +51,6 @@ export default class DashBoard extends Vue {
 
   public created(): void {
     this.loadTodoList();
-  }
-
-  public exportSvg() {
-    // this.svg = this.canvas.toSVG();
   }
 
   public addToDo(title: string): void {

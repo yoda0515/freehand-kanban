@@ -1,34 +1,32 @@
 <template>
   <div class="signin">
-    <form class="form-signin">
-      <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input
+    <img class="mb-4" src="../assets/logo.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <v-text-field
         v-model="form.email"
-        type="email"
-        id="inputEmail"
-        class="form-control"
+        v-bind:rules="emailRules"
         placeholder="Email address"
         autocomplete="email"
         required
         autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input
+      </v-text-field>
+      <v-text-field
         v-model="form.password"
+        v-bind:rules="passwordRules"
         type="password"
-        id="inputPassword"
-        class="form-control"
         placeholder="Password"
         autocomplete="current-password"
         required>
-      <button
+      </v-text-field>
+      <v-btn
+        v-bind:disabled="!valid"
         v-on:click="onSubmit()"
-        class="btn btn-lg btn-primary btn-block"
-        type="submit">
-        Sign in
-      </button>
-    </form>
+        block
+        class="primary">
+        sign in
+      </v-btn>
+    </v-form>
   </div>
 </template>
 
@@ -44,7 +42,15 @@ export default class SignIn extends Vue {
 
   public data() {
     return {
-      form: new SignInForm()
+      form: new SignInForm(),
+      valid: true,
+      emailRules: [
+        (v: string) => !!v || 'Email is required',
+        (v: string) => /.+@.+/.test(v) || 'invalid Email format'
+      ],
+      passwordRules: [
+        (v: string) => !!v || 'Password is required'
+      ],
     };
   }
 
