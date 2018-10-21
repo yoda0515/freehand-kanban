@@ -10,12 +10,8 @@ Vue.use(Router);
 const router: Router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
       path: '/signin',
+      alias: '/',
       name: 'signin',
       component: SignIn
     },

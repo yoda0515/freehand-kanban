@@ -5,8 +5,7 @@
         <span>freehand-todo</span>
       </v-toolbar-title>
       <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/signin">Sign In</router-link> |
+      <router-link to="/">Sign In</router-link> |
       <router-link to="/dashboard">Dashboard</router-link>
     </div>
     </v-toolbar>
