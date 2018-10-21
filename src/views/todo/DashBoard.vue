@@ -1,17 +1,20 @@
 <template>
   <div class="dashboard">
-    <to-do-add v-on:addToDo="addToDo"></to-do-add>
     <to-do-list
       v-bind:todos="todos"
-      v-on:titleClick="openDetail"
-      v-on:deleteClick="deleteItem">
+      v-on:titleClick="onClickItem"
+      v-on:deleteClick="deleteToDo">
     </to-do-list>
+    <v-btn fab color="primary" class="add-button" v-on:click="onClickAddButton()">
+      <v-icon dark>add</v-icon>
+    </v-btn>
     <modal v-if="showModal">
       <template slot="body">
-        <to-do-editor v-bind:todo="editing"></to-do-editor>
-      </template>
-      <template slot="footer">
-        <button class="btn btn-primary modal-default-button" v-on:click="closeDetail()">save</button>
+        <to-do-editor
+          v-bind:todo="editing"
+          v-on:addToDo="addToDo"
+          v-on:updateToDo="updateToDo">
+        </to-do-editor>
       </template>
     </modal>
   </div>
@@ -53,23 +56,37 @@ export default class DashBoard extends Vue {
     this.loadTodoList();
   }
 
-  public addToDo(title: string): void {
-    const todo: Todo = Todo.newInstance(title);
-    firestore.collection('todos').add(JSON.parse(JSON.stringify(todo))).then(() => {
-      this.loadTodoList();
-    });
+  public onClickAddButton(): void {
+    this.editing = Todo.newInstance('');
+    this.showModal = true;
   }
 
-  public openDetail(index: number): void {
+  public onClickItem(index: number): void {
     this.editing = this.todos[index];
     this.showModal = true;
   }
 
-  public closeDetail(): void {
-    this.showModal = false;
+  public addToDo(title: string): void {
+    const todo: Todo = this.editing;
+    todo.title = title;
+    firestore.collection('todos').add(JSON.parse(JSON.stringify(todo))).then(() => {
+      // this.editing = null;
+      this.showModal = false;
+      this.loadTodoList();
+    });
   }
 
-  public deleteItem(index: number): void {
+  public updateToDo(title: string): void {
+    const todo: Todo = this.editing;
+    todo.title = title;
+    firestore.collection('todos').doc(todo.key).update(JSON.parse(JSON.stringify(todo))).then(() => {
+      // this.editing = null;
+      this.showModal = false;
+      this.loadTodoList();
+    });
+  }
+
+  public deleteToDo(index: number): void {
     const doc: Todo = this.todos[index];
     firestore.collection('todos').doc(doc.key).delete().then(() => {
       this.loadTodoList();
@@ -89,5 +106,12 @@ export default class DashBoard extends Vue {
 </script>
 
 <style lang="sass" scoped>
-
+.dashboard
+  .add-button
+    position: absolute
+    bottom: 1rem
+    right: 0rem
+    z-index: 1000
+  .add-button:focus
+    outline: 0
 </style>
