@@ -1,7 +1,6 @@
 <template>
   <div class="todo-list">
     <swipe-list
-      class="card"
       v-bind:items="todos"
       transition-key="key">
       <template slot-scope="{ item, index, revealLeft, revealRight, close }">
@@ -93,20 +92,10 @@ export default class ToDoList extends Vue {
 }
 .swipeout-list-item {
   flex: 1;
-  border-bottom: 1px solid lightgray;
-  &:last-of-type {
-    border-bottom: none;
-  }
-}
-.card {
   width: 100%;
-  background-color: white;
-  border-radius: 3px;
-  box-shadow: none;
-  border: 1px solid lightgray;
 }
+
 .card-content {
-  padding: 1rem;
   svg {
     display: block;
     width: 100%;

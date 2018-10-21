@@ -30,9 +30,7 @@
 
 <script>
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
-const vueSwipeActions = require('vue-swipe-actions');
-const SwipeOut = vueSwipeActions.SwipeOut;
+import SwipeOut from '@/components/vendor/SwipeOut.vue';
 
 @Component({
   name: 'vue-swipe-list',
