@@ -16,11 +16,34 @@
   </transition>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component()
+@Component({})
 export default class Modal extends Vue {
+
+  private defaultHtmlOverflow: any;
+  private defaultBodyOverflow: any;
+  private defaultHtmlHeight: any;
+  private defaultBodyHeight: any;
+
+  public mounted(): void {
+    this.defaultHtmlOverflow = document.documentElement!.style.overflow;
+    this.defaultBodyOverflow = document.body.style.overflow;
+    this.defaultHtmlHeight = document.documentElement!.style.height;
+    this.defaultBodyHeight = document.body.style.height;
+    document.documentElement!.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.documentElement!.style.height = '100%';
+    document.body.style.height = '100%';
+  }
+
+  public beforeDestroy(): void {
+    document.documentElement!.style.overflow = this.defaultHtmlOverflow;
+    document.body.style.overflow = this.defaultBodyOverflow;
+    document.documentElement!.style.height = this.defaultHtmlHeight;
+    document.body.style.height = this.defaultBodyHeight;
+  }
 
 }
 </script>
