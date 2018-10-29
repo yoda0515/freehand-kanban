@@ -1,7 +1,9 @@
 <template>
   <div class="todo-editor">
     <v-card class="white">
-      <canvas id="canvas-title" width="500" height="100"></canvas>
+      <div class="canvas-container" ref="container">
+        <canvas id="canvas-title"></canvas>
+      </div>
     </v-card>
     <v-btn
       v-on:click="onSave()"
@@ -37,15 +39,21 @@ export default class ToDoEditor extends Vue {
       selection: true,
       stateful: true
     });
+    const containerWidth: number = (this.$refs.container as Element).clientWidth;
+    this.titleCanvas.setWidth(containerWidth);
+    this.titleCanvas.setHeight(containerWidth / 10);
+    (document.getElementById('canvas-title')as any).width = containerWidth;
+    (document.getElementById('canvas-title')as any).height = containerWidth / 10;
     // TODO implement cloneDeep and reset feature
     if (!!this.todo.title) {
       this.mode = EditMode.UPDATE;
       fabric.loadSVGFromString(this.todo.title, (objects, options) => {
         const obj = fabric.util.groupSVGElements(objects, options);
-        this.titleCanvas.add(obj).renderAll();
+        this.titleCanvas.add(obj).calcOffset().renderAll();
       });
     } else {
       this.mode = EditMode.CREATE;
+      this.titleCanvas.calcOffset().renderAll();
     }
   }
 
@@ -81,4 +89,9 @@ enum EditMode {
 </script>
 
 <style lang="sass" scoped>
+.canvas-container
+  width: 100%
+  height: auto
+  display: block
+  margin-bottom: 2rem
 </style>
