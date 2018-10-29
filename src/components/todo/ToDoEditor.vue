@@ -9,6 +9,12 @@
       class="primary">
       save
     </v-btn>
+    <v-btn
+      v-on:click="onCancel()"
+      block
+      class="secondary">
+      cancel
+    </v-btn>
   </div>
 </template>
 
@@ -51,6 +57,11 @@ export default class ToDoEditor extends Vue {
     }
   }
 
+  @Emit('cancel')
+  private onCancel(): void {
+
+  }
+
   @Emit('addToDo')
   private add(): string {
     return this.titleCanvas.toSVG();
@@ -60,6 +71,7 @@ export default class ToDoEditor extends Vue {
   private update(): string {
     return this.titleCanvas.toSVG();
   }
+
 }
 
 enum EditMode {

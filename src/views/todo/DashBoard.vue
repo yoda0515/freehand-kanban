@@ -13,7 +13,8 @@
         <to-do-editor
           v-bind:todo="editing"
           v-on:addToDo="addToDo"
-          v-on:updateToDo="updateToDo">
+          v-on:updateToDo="updateToDo"
+          v-on:cancel="cancelEditingToDo">
         </to-do-editor>
       </template>
     </modal>
@@ -64,6 +65,11 @@ export default class DashBoard extends Vue {
   public onClickItem(index: number): void {
     this.editing = this.todos[index];
     this.showModal = true;
+  }
+
+  public cancelEditingToDo(): void {
+    // this.editing = null;
+    this.showModal = false;
   }
 
   public addToDo(title: string): void {
