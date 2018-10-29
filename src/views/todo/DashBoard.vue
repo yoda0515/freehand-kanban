@@ -114,7 +114,7 @@ export default class DashBoard extends Vue {
 <style lang="sass" scoped>
 .dashboard
   .add-button
-    position: absolute
+    position: fixed
     bottom: 1rem
     right: 0rem
     z-index: 1000
